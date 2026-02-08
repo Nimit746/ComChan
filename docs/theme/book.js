@@ -332,10 +332,22 @@ function playground_text(playground) {
         html.classList.add(theme);
     }
 
-    // Set theme
+    // Set theme immediately on page load
     var theme = get_theme();
-
+    
+    // Apply theme class to HTML element immediately
+    html.classList.add(theme);
+    
     set_theme(theme, false);
+    
+    // Re-highlight all code blocks after theme is set to ensure syntax highlighting is applied
+    setTimeout(function() {
+        Array.from(document.querySelectorAll('pre code')).forEach(function (block) {
+            if (!block.classList.contains('editable')) {
+                hljs.highlightBlock(block);
+            }
+        });
+    }, 10);
 
     themeToggleButton.addEventListener('click', function () {
         if (themePopup.style.display === 'block') {
